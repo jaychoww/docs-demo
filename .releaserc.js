@@ -52,12 +52,10 @@ module.exports =
       {
         'assets': [
           {
-            'path': 'documentation/*.yml',
-            'label': 'Swagger docs'
+            'path': 'documentation/*.yml'
           },
           {
-            'path': 'CHANGELOG.md',
-            'label': 'Change log'
+            'path': 'CHANGELOG.md'
 
           }
         ],
