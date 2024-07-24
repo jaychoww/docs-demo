@@ -10,7 +10,7 @@ servers:
 paths:
   /complex/api/core/complex/{complex_uuid}:
     get:
-      summary: Get complex detail by complex uuid
+      summary: publish
       operationId: detailsUsingGET_1
       parameters:
       - name: complex_uuid
