@@ -17,7 +17,8 @@ module.exports =
       {
         'preset': 'conventionalcommits',
         'releaseRules': [
-          {'type': 'docs', 'release': 'patch'}
+          {'type': 'docs', 'release': 'patch'},
+          {'type': 'break', 'release': 'major'}
         ]
       }
     ],
@@ -30,7 +31,9 @@ module.exports =
           {'type': 'feat', 'section': '🚀 Features'},
           {'type': 'fix', 'section': '🐛 Bug Fixes'},
           {'type': 'perf', 'section': '🚀 Performance Improvements'},
-          {'type': 'docs', 'section': '📝 Documentation'}
+          {'type': 'docs', 'section': '📝 Documentation'},
+          {'type': 'break', 'section': '🚨 Breaking Changes'},
+
         ]
       },
 
@@ -56,7 +59,6 @@ module.exports =
           },
           {
             'path': 'CHANGELOG.md'
-
           }
         ],
         'releaseNameTemplate': 'v${nextRelease.version}-${nextRelease.channel} 🌈'
