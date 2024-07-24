@@ -1,0 +1,302 @@
+openapi: 3.0.3
+info:
+  title: demo
+  version: 1.0.1-media
+servers:
+- url: https://cert.aamts.io
+  description: production
+- url: https://cert.aamthunderstorm.com
+  description: staging
+paths:
+  /complex/api/core/complex/{complex_uuid}:
+    get:
+      summary: Get complex detail by complex uuid
+      operationId: detailsUsingGET_1
+      parameters:
+      - name: complex_uuid
+        in: path
+        description: complex_uuid
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CommonResultOfComplexVO'
+        "400":
+          description: Bad Request. 请求参数有误
+        "401":
+          description: Unauthorized. 请验证用户权限
+        "403":
+          description: Forbidden. 请求禁止
+        "404":
+          description: Not Found. 请求找不到
+        "405":
+          description: Method Not Allowed. 请求方法不允许
+        "500":
+          description: Internal Server Error. 服务器错误
+        "501":
+          description: Not Implemented. 服务器不支持
+  /agent/api/core/agent/sync:
+    post:
+      description: "Endpoint used by all the agents to transfer information up and\
+        \ down the cloud. {{ agent_service_sync_dump }}"
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/Sync'
+        required: true
+      responses:
+        "202":
+          description: Server took action
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SyncResponseV1'
+        "400":
+          description: BadRequest - Invalid data supplied
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/HttpError'
+        "404":
+          description: NotFound - complex not found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/HttpError'
+        "500":
+          description: ServerError - Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/HttpError'
+      x-codegen-request-body-name: body
+components:
+  schemas:
+    ComplexVO:
+      title: ComplexVO
+      type: object
+      properties:
+        active:
+          type: boolean
+        address_city:
+          type: string
+        address_country:
+          type: string
+        address_postcode:
+          type: string
+        address_province:
+          type: string
+        address_state:
+          type: string
+        address_street_1:
+          type: string
+        address_street_2:
+          type: string
+        address_type:
+          type: string
+        addressee:
+          type: string
+        device_count:
+          type: integer
+          format: int32
+        email:
+          type: string
+        executive_organization_names:
+          type: string
+        executive_organization_uuids:
+          type: array
+          items:
+            type: string
+            format: uuid
+        exhibitor_name:
+          type: string
+        exhibitor_uuid:
+          type: string
+          format: uuid
+        facility_id:
+          type: string
+        flm_hash:
+          type: string
+        flm_type:
+          type: string
+        installation_date:
+          type: string
+        is_vpf:
+          type: boolean
+        kdm_enabled:
+          type: boolean
+        last_modified:
+          type: string
+        name:
+          type: string
+        organization_name:
+          type: string
+        organization_uuid:
+          type: string
+          format: uuid
+        phone:
+          type: string
+        schedule_resync_gap_minutes:
+          type: integer
+          format: int32
+        screen_count:
+          type: integer
+          format: int32
+        screenwriter_host:
+          type: string
+        screenwriter_password:
+          type: string
+        screenwriter_username:
+          type: string
+        screenwriter_version:
+          type: string
+        seat_count:
+          type: integer
+          format: int32
+        site_id:
+          type: string
+        site_identifiers:
+          type: array
+          items:
+            type: string
+        timezone:
+          type: string
+        title_sync_enabled:
+          type: boolean
+        uuid:
+          type: string
+          format: uuid
+        vpf_entity:
+          type: string
+      description: 影院信息
+    CommonResultOfComplexVO:
+      title: CommonResultOfComplexVO
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        data:
+          $ref: '#/components/schemas/ComplexVO'
+        message:
+          type: string
+        trace_message:
+          type: string
+    QueueMessage:
+      required:
+      - msg_type
+      - uuid
+      type: object
+      properties:
+        msg_body:
+          type: object
+          properties: {}
+        msg_type:
+          type: string
+        uuid:
+          type: string
+          format: uuid
+    SyncResponseLegacy:
+      type: object
+      properties:
+        messages:
+          type: array
+          description: List of messages for the agent
+          items:
+            $ref: '#/components/schemas/QueueMessage'
+    SyncResponseV1:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/SyncResponseLegacy'
+    HttpError:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: HTTP code of the response
+          format: int32
+        message:
+          type: string
+          description: Description of the error happened during the response
+    SyncMeta:
+      required:
+      - current_datetime
+      - current_timezone
+      - version
+      type: object
+      properties:
+        channel:
+          type: string
+          description: channel of the agent is currently running
+          nullable: true
+        current_datetime:
+          type: string
+          description: Local datetime of the agent
+          format: date-time
+        current_timezone:
+          type: string
+          description: Timezone of the agent
+          nullable: true
+        scwr_license_info:
+          type: string
+          description: Screewriter's raw license
+          nullable: true
+        scwr_version_info:
+          type: object
+          properties: {}
+          description: Screenwriter version on site
+          nullable: true
+        send_counter:
+          type: object
+          properties: {}
+          description: Representation of the Agent's send queue on site
+        task_counter:
+          type: object
+          properties: {}
+          description: Representation of the Agent's task queue on site
+        version:
+          maxLength: 255
+          type: string
+          description: Version the agent is currently running
+    SyncMessage:
+      required:
+      - msg_type
+      type: object
+      properties:
+        error:
+          type: string
+          description: Extra error information coming from the agent
+        msg_type:
+          type: string
+          description: "Type of the message sent by the agent, need to register at\
+            \ first"
+        payload:
+          type: object
+          properties: {}
+          description: "Message payload, will be validated based on the msg_type"
+    Sync:
+      required:
+      - meta
+      - msg
+      type: object
+      properties:
+        meta:
+          type: object
+          description: Metadata coming from the agent
+          allOf:
+          - $ref: '#/components/schemas/SyncMeta'
+        msg:
+          type: object
+          description: Message payload coming from the agent
+          allOf:
+          - $ref: '#/components/schemas/SyncMessage'
