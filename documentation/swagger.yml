@@ -153,10 +153,6 @@ components:
           format: int32
         screenwriter_host:
           type: string
-        screenwriter_password:
-          type: string
-        screenwriter_username:
-          type: string
         screenwriter_version:
           type: string
         seat_count:
