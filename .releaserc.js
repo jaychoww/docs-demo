@@ -5,12 +5,12 @@ module.exports =
       'name': 'master'
     },
     {
-      'name': 'docs/media',
-      'channel': 'media',
+      'name': 'docs/kdm',
+      'channel': 'kdm',
       'prerelease': false
     },
   ],
-  'tagFormat': 'v${version}-media',
+  'tagFormat': 'v${version}-kdm',
   'plugins': [
     [
       '@semantic-release/commit-analyzer',
