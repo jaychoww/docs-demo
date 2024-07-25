@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: kdm
-  version: 1.0.0-kdm
+  version: 1.1.0-kdm
 servers:
 - url: https://cert.aamts.io
   description: production
