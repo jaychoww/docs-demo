@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: media
-  version: 1.0.1-media
+  version: 1.0.0-media
 servers:
 - url: https://cert.aamts.io
   description: production
