@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: demo
+  title: media-with-trans
   version: 1.0.1-media
 servers:
 - url: https://cert.aamts.io
