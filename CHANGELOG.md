@@ -1,3 +1,9 @@
+## [1.0.1](https://github.com/jaychoww/docs-demo/compare/v1.0.0-media...v1.0.1-media) (2024-07-25)
+
+### 🐛 Bug Fixes
+
+* remove username/password from the result of api get complex ([855991c](https://github.com/jaychoww/docs-demo/commit/855991c8fe5f237ea3353eddde0bdfb3ef9f5fb2))
+
 ## 1.0.0 (2024-07-25)
 
 ### 🚀 Features
